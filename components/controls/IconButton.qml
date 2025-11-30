@@ -3,21 +3,82 @@ import qs.services
 import qs.config
 import QtQuick
 
+/**
+ * A versatile icon button component with Material Design 3 styling.
+ * 
+ * This component provides three button types:
+ * - Filled: Solid background with contrasting icon
+ * - Tonal: Subtle background with contrasting icon  
+ * - Text: Transparent background with colored icon
+ * 
+ * Features:
+ * - Toggle functionality with state persistence
+ * - Disabled state handling
+ * - Smooth animations and transitions
+ * - Material Design 3 color system integration
+ * - Ripple effect through StateLayer
+ * 
+ * @example
+ * IconButton {
+ *     icon: "home"
+ *     type: IconButton.Filled
+ *     toggle: true
+ *     onClicked: console.log("Button clicked")
+ * }
+ */
 StyledRect {
     id: root
 
+    /**
+     * Button type enumeration following Material Design 3
+     */
     enum Type {
-        Filled,
-        Tonal,
-        Text
+        Filled,  // Solid background button
+        Tonal,   // Subtle background button
+        Text     // Transparent background button
     }
 
+    /**
+     * Icon identifier from Material Design Icons set
+     * @type {string}
+     */
     property alias icon: label.text
+    
+    /**
+     * Checked state for toggle functionality
+     * @type {boolean}
+     */
     property bool checked
+    
+    /**
+     * Whether button acts as a toggle switch
+     * @type {boolean}
+     */
     property bool toggle
+    
+    /**
+     * Internal padding around the icon
+     * @type {real}
+     */
     property real padding: type === IconButton.Text ? Appearance.padding.small / 2 : Appearance.padding.smaller
+    
+    /**
+     * Font properties for the icon
+     * @type {font}
+     */
     property alias font: label.font
+    
+    /**
+     * Button visual style (Filled/Tonal/Text)
+     * @type {IconButton.Type}
+     * @default IconButton.Filled
+     */
     property int type: IconButton.Filled
+    
+    /**
+     * Whether button is disabled and non-interactive
+     * @type {boolean}
+     */
     property bool disabled
 
     property alias stateLayer: stateLayer
@@ -40,6 +101,9 @@ StyledRect {
     property color disabledColour: Qt.alpha(Colours.palette.m3onSurface, 0.1)
     property color disabledOnColour: Qt.alpha(Colours.palette.m3onSurface, 0.38)
 
+    /**
+     * Emitted when the button is clicked
+     */
     signal clicked
 
     onCheckedChanged: internalChecked = checked
